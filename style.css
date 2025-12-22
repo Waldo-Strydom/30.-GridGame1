@@ -1,0 +1,194 @@
+
+#screen{
+    border:2px solid black;
+    
+
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+
+    grid-template-areas: 
+    "s1 s2 s3 s4 s5"
+    "s6 s7 s8 s9 s10"
+    "s11 s12 s13 s14 s15"
+    "s16 s17 s18 s19 s20"
+    
+    
+    
+    
+    ;
+}
+
+.square{
+    width: 19vw;
+    height: 19vw;
+}
+
+#s1{
+    grid-area: s1;
+    background-image: url("./Assets/sprites/wall.png");
+    background-size: cover;
+}
+
+#s2{
+    grid-area: s2;
+    background-image: url("./Assets/sprites/wall.png");
+    background-size: cover;
+}
+
+#s3{
+    grid-area: s3;
+    background-image: url("./Assets/sprites/exit.png");
+    background-size: cover;
+}
+
+#s4{
+    grid-area: s4;
+    background-image:  url("./Assets/sprites/knight.png"),url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s5{
+    grid-area: s5;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s6{
+    grid-area: s6;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s7{
+    grid-area: s7;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s8{
+    grid-area: s8;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s9{
+    grid-area: s9;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s10{
+    grid-area: s10;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s11{
+    grid-area: s11;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s12{
+    grid-area: s12;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s13{
+    grid-area: s13;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s14{
+    grid-area: s14;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s15{
+    grid-area: s15;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s16{
+    grid-area: s16;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s17{
+    grid-area: s17;
+    background-image: url("./Assets/sprites/grass.png");
+    background-size: cover;
+}
+
+#s18{
+    grid-area: s18;
+    background-image: url("./Assets/sprites/chest.png");
+    background-size: cover;
+}
+
+#s19{
+    grid-area: s19;
+    background-image: url("./Assets/sprites/chest.png");
+    background-size: cover;
+}
+
+#s20{
+    grid-area: s20;
+    background-image: url("./Assets/sprites/chest.png");
+    background-size: cover;
+}
+
+#controlDiv{
+    border: 2px solid red;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    gap: 2px;
+
+}
+
+.conBtn{
+    color: rgb(245,245,245);
+    background-color: rgb(100,100,100);
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1fr;
+    height: 30vw;
+}
+
+#up{
+    grid-column: 2/2;
+    grid-row: 1/1;
+}
+
+#left{
+    grid-column: 1/2;
+    grid-row: 2/2;
+}
+
+#ok{
+    grid-column: 2/2;
+    grid-row: 2/2;
+
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+#right{
+    grid-column: 3/3;
+    grid-row: 2/2;
+}
+
+#down{
+    grid-column: 2/2;
+    grid-row: 3/3;
+}
