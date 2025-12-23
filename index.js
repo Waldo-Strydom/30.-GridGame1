@@ -68,6 +68,10 @@ const movementFun=(dir)=>{
 
             if(nxtPlayerPos>0){
                 checkObstacle(playerPos,nxtPlayerPos)
+            }else{
+               
+                attackerFun(playerPos)
+                render()
             }
 
         break;
@@ -76,14 +80,23 @@ const movementFun=(dir)=>{
 
             if(nxtPlayerPos<19){
                 checkObstacle(playerPos,nxtPlayerPos)
+            }else{
+               
+                attackerFun(playerPos)
+                render()
             }
         break;
         case "left":
             nxtPlayerPos = playerPos-1
 
              remainder = playerPos%5
+          
             if(remainder!=0){
                 checkObstacle(playerPos,nxtPlayerPos)
+            }else{
+               
+                attackerFun(playerPos)
+                render()
             }
         break;
         case "right":
@@ -93,6 +106,10 @@ const movementFun=(dir)=>{
              remainder = (nxtPlayerPos+1)%5
                 if(remainder!=0){
                     checkObstacle(playerPos,nxtPlayerPos)
+            }else{
+               
+                attackerFun(playerPos)
+                render()
             }
         break;        
     }
@@ -101,8 +118,7 @@ const movementFun=(dir)=>{
 }
 
 const checkObstacle = (playerPos,nxtPlayerPos)=>{
-    //                 currentMap[playerPos]="g"
-                // currentMap[nxtPlayerPos]="k"
+
 console.log("check")
 console.log(nxtPlayerPos)
     switch(currentMap[nxtPlayerPos]){
@@ -123,10 +139,83 @@ console.log(nxtPlayerPos)
             console.log("attack")  
         break;  
         case "e":
-            exit()
-        break;       
+            // exit()
+        break; 
+        default:
+            //  attackerFun(playerPos)
+        break;          
     }
-
+    attackerFun(playerPos)
     render()
               
+}
+
+const attackerFun = (playerPos)=>{
+    console.log("attFun")
+    if(currentMap.includes("b")){
+        let attackerPos = currentMap.indexOf("b")
+
+        let checkAround = [currentMap[attackerPos-5], currentMap[attackerPos+5],currentMap[attackerPos-1],currentMap[attackerPos+1] ]
+        // console.log(checkAround)
+        if(checkAround.includes("k")){
+            // attack player
+        }else{
+
+            if(playerPos>attackerPos){
+                playerAhead(playerPos,attackerPos)
+            }else{
+                playerBehind(playerPos,attackerPos)
+            }
+
+        }
+
+
+
+
+    }else{
+        return
+    }
+}
+
+const playerAhead = (playerPos,attackerPos)=>{
+    let diff = playerPos-attackerPos
+    let posAttPos = []
+    console.log(`diff ${diff}`)
+    if(diff>=5){
+        posAttPos = [attackerPos+5,attackerPos+1, attackerPos-1,attackerPos-5]
+    }else{
+        posAttPos = [attackerPos+1,attackerPos+5, attackerPos-1,attackerPos-5]
+    }
+
+    moveAttacker(posAttPos,attackerPos)
+
+}
+
+const playerBehind = (playerPos,attackerPos)=>{
+
+    let diff = attackerPos-playerPos
+    let posAttPos = []
+    console.log(`diff ${diff}`)
+    if(diff>=5){
+        posAttPos = [attackerPos-5,attackerPos-1, attackerPos+1,attackerPos+5]
+    }else{
+        posAttPos = [attackerPos-1,attackerPos-5, attackerPos+1,attackerPos+5]
+    }
+
+    moveAttacker(posAttPos,attackerPos)
+
+}
+
+const moveAttacker = (posAttPos,attackerPos)=>{
+    let moveFound = false
+
+    for(let i =0;i<posAttPos.length;i++){
+            if(currentMap[posAttPos[i]]==="g"){
+            console.log(`grass found ${currentMap[posAttPos[i]]}`)
+            currentMap[attackerPos]="g"
+            currentMap[posAttPos[i]]="b"
+            return;
+        }
+    }
+
 }
