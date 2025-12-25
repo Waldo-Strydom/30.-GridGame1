@@ -1,14 +1,16 @@
-import { player } from "./player.js"
-import { maps, mapInfo } from "./maps.js"
-import { weapons } from "./weapons.js"
+import { player } from "./Modules/player.js"
+import { maps } from "./Modules/maps.js"
+import { mapInfo } from "./Modules/maps.js"
+import { weapons } from "./Modules/weapons.js"
 
 let currentMap = maps[player.map]
 let meleeWeapon = weapons[player.meleeWeapon]
+let mapPics = mapInfo[player.map]
 let cols = 5
 let rows = 4
-console.log(meleeWeapon)
 
-
+console.log(currentMap)
+console.log(mapPics)
 
 
 const controlPanel = document.getElementById("controlDiv")
@@ -30,19 +32,19 @@ const render = ()=>{
 
           switch (currentMap[i]) {
             case "w":
-                square.style.backgroundImage=`url("./Assets/sprites/wall.png")`
+                square.style.backgroundImage=mapPics.wall
                 break;
             case "g":
-                square.style.backgroundImage=`url("./Assets/sprites/grass.png")`
+                square.style.backgroundImage=mapPics.ground
                 break;
             case "k":
-                square.style.backgroundImage=`url("./Assets/sprites/knight.png"),url("./Assets/sprites/grass.png")`
+                square.style.backgroundImage=`url("./Assets/sprites/player.png"),${mapPics.ground}`
                 break;
-            case "b":
-                square.style.backgroundImage=`url("./Assets/sprites/boar.png"),url("./Assets/sprites/grass.png")`
+            case "a":
+                square.style.backgroundImage=`${mapPics.attacker},${mapPics.ground}`
                 break;
             case "c":
-                square.style.backgroundImage=`url("./Assets/sprites/chest.png"),url("./Assets/sprites/grass.png")`
+                square.style.backgroundImage=`${mapPics.chest},${mapPics.ground}`
                 break;
             case "e":
                 square.style.backgroundImage=`url("./Assets/sprites/exit.png")`
@@ -66,7 +68,7 @@ const movementFun=(dir)=>{
         case "up":
             nxtPlayerPos = playerPos-5
 
-            if(nxtPlayerPos>0){
+            if(nxtPlayerPos>=0){
                 checkObstacle(playerPos,nxtPlayerPos)
             }else{
                
@@ -78,7 +80,7 @@ const movementFun=(dir)=>{
         case "down":
             nxtPlayerPos = playerPos+5
 
-            if(nxtPlayerPos<19){
+            if(nxtPlayerPos<=19){
                 checkObstacle(playerPos,nxtPlayerPos)
             }else{
                
@@ -103,7 +105,8 @@ const movementFun=(dir)=>{
             console.log("right")
             nxtPlayerPos = playerPos+1
 
-             remainder = (nxtPlayerPos+1)%5
+             remainder = (nxtPlayerPos)%5
+             console.log(`rem ${remainder}`)
                 if(remainder!=0){
                     checkObstacle(playerPos,nxtPlayerPos)
             }else{
@@ -134,7 +137,7 @@ console.log(nxtPlayerPos)
             player.inventory.push("key")
             alert(player.inventory)
         break;
-        case "b":
+        case "a":
             // meleeAttack() 
             console.log("attack")  
         break;  
@@ -152,8 +155,10 @@ console.log(nxtPlayerPos)
 
 const attackerFun = (playerPos)=>{
     console.log("attFun")
-    if(currentMap.includes("b")){
-        let attackerPos = currentMap.indexOf("b")
+    if(currentMap.includes("a")){
+
+        
+        let attackerPos = currentMap.indexOf("a")
 
         let checkAround = [currentMap[attackerPos-5], currentMap[attackerPos+5],currentMap[attackerPos-1],currentMap[attackerPos+1] ]
         // console.log(checkAround)
@@ -213,7 +218,7 @@ const moveAttacker = (posAttPos,attackerPos)=>{
             if(currentMap[posAttPos[i]]==="g"){
             console.log(`grass found ${currentMap[posAttPos[i]]}`)
             currentMap[attackerPos]="g"
-            currentMap[posAttPos[i]]="b"
+            currentMap[posAttPos[i]]="a"
             return;
         }
     }
