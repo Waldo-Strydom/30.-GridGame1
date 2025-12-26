@@ -4,13 +4,12 @@ import { mapInfo } from "./Modules/maps.js"
 import { weapons } from "./Modules/weapons.js"
 
 let currentMap = maps[player.map]
+let currentCell = currentMap[player.cell]
 let meleeWeapon = weapons[player.meleeWeapon]
 let mapPics = mapInfo[player.map]
 let cols = 5
 let rows = 4
-
-console.log(currentMap)
-console.log(mapPics)
+let cellSwitch = false;
 
 
 const controlPanel = document.getElementById("controlDiv")
@@ -29,24 +28,27 @@ const render = ()=>{
         const square = document.getElementById(`s`+s)
         let i = s-1
 
-
-          switch (currentMap[i]) {
-            case "w":
-                square.style.backgroundImage=mapPics.wall
-                break;
-            case "g":
+        let c = currentCell[i]
+          switch (true) {
+            case c[0]=="t":
                 square.style.backgroundImage=mapPics.ground
                 break;
-            case "k":
+            case c==="w":
+                square.style.backgroundImage=mapPics.wall
+                break;
+            case c==="g":
+                square.style.backgroundImage=mapPics.ground
+                break;
+            case c==="k":
                 square.style.backgroundImage=`url("./Assets/sprites/player.png"),${mapPics.ground}`
                 break;
-            case "a":
+            case c==="a":
                 square.style.backgroundImage=`${mapPics.attacker},${mapPics.ground}`
                 break;
-            case "c":
+            case c==="c":
                 square.style.backgroundImage=`${mapPics.chest},${mapPics.ground}`
                 break;
-            case "e":
+            case c==="e":
                 square.style.backgroundImage=`url("./Assets/sprites/exit.png")`
                 break;
             // default:
@@ -60,7 +62,7 @@ const render = ()=>{
 }
 render()
 const movementFun=(dir)=>{
-    let playerPos = currentMap.indexOf("k")
+    let playerPos = currentCell.indexOf("k")
     let nxtPlayerPos = 0
     let remainder = 0
     console.log(playerPos)
@@ -89,10 +91,19 @@ const movementFun=(dir)=>{
             }
         break;
         case "left":
+            // if()
             nxtPlayerPos = playerPos-1
 
              remainder = playerPos%5
+
+             if(currentCell[nxtPlayerPos].includes("tl")){
+                console.log("tl")
+                cellSwitch=true
+             }else{
+                cellSwitch=false
+             }
           
+            
             if(remainder!=0){
                 checkObstacle(playerPos,nxtPlayerPos)
             }else{
@@ -100,6 +111,8 @@ const movementFun=(dir)=>{
                 attackerFun(playerPos)
                 render()
             }
+           
+
         break;
         case "right":
             console.log("right")
@@ -124,16 +137,16 @@ const checkObstacle = (playerPos,nxtPlayerPos)=>{
 
 console.log("check")
 console.log(nxtPlayerPos)
-    switch(currentMap[nxtPlayerPos]){
+    switch(currentCell[nxtPlayerPos]){
         case "g":
             console.log("grass")
-            currentMap[playerPos]="g"
-            currentMap[nxtPlayerPos]="k"
+            currentCell[playerPos]="g"
+            currentCell[nxtPlayerPos]="k"
             render()
         break;
         case "c":
-            currentMap[playerPos]="g"
-            currentMap[nxtPlayerPos]="k"
+            currentCell[playerPos]="g"
+            currentCell[nxtPlayerPos]="k"
             player.inventory.push("key")
             alert(player.inventory)
         break;
@@ -155,12 +168,12 @@ console.log(nxtPlayerPos)
 
 const attackerFun = (playerPos)=>{
     console.log("attFun")
-    if(currentMap.includes("a")){
+    if(currentCell.includes("a")){
 
-        
-        let attackerPos = currentMap.indexOf("a")
 
-        let checkAround = [currentMap[attackerPos-5], currentMap[attackerPos+5],currentMap[attackerPos-1],currentMap[attackerPos+1] ]
+        let attackerPos = currentCell.indexOf("a")
+
+        let checkAround = [currentCell[attackerPos-5], currentCell[attackerPos+5],currentCell[attackerPos-1],currentCell[attackerPos+1] ]
         // console.log(checkAround)
         if(checkAround.includes("k")){
             // attack player
@@ -215,10 +228,10 @@ const moveAttacker = (posAttPos,attackerPos)=>{
     let moveFound = false
 
     for(let i =0;i<posAttPos.length;i++){
-            if(currentMap[posAttPos[i]]==="g"){
-            console.log(`grass found ${currentMap[posAttPos[i]]}`)
-            currentMap[attackerPos]="g"
-            currentMap[posAttPos[i]]="a"
+            if(currentCell[posAttPos[i]]==="g"){
+            console.log(`grass found ${currentCell[posAttPos[i]]}`)
+            currentCell[attackerPos]="g"
+            currentCell[posAttPos[i]]="a"
             return;
         }
     }

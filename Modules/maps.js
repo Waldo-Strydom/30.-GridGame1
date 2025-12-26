@@ -1,11 +1,19 @@
 
 export let maps ={
-    start: [
-    "g","g","g","g","a",
-    "g","k","g","g","g",
-    "g","g","g","g","g",
-    "g","g","g","a","g"
-]
+    start:{
+        0: [
+    "tl1","g","g","g","g",
+    "tl1","k","g","g","g",
+    "tl1","g","g","g","g",
+    "tl1","g","g","a","g"
+],
+    1: [
+    "g","g","g","g","tr0",
+    "g","g","w","g","tr0",
+    "g","g","w","g","tr0",
+    "g","g","g","g","tr0"
+],
+    }
 }
 
 export let mapInfo={
