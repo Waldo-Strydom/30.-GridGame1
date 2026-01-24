@@ -2,7 +2,7 @@
 
 export let player = {
     map: "start",
-    cell: 0,
+    cell: "zero",
     key: false,
     inventory: [],
     hp: 10,

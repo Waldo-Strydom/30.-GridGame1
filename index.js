@@ -5,11 +5,17 @@ import { weapons } from "./Modules/weapons.js"
 
 let currentMap = maps[player.map]
 let currentCell = currentMap[player.cell]
+
 let meleeWeapon = weapons[player.meleeWeapon]
 let mapPics = mapInfo[player.map]
+let swiches = mapInfo[player.map].swiches
+let currentCellNumber = swiches[player.cell]
 let cols = 5
 let rows = 4
-let cellSwitch = false;
+
+
+
+
 
 
 const controlPanel = document.getElementById("controlDiv")
@@ -24,6 +30,7 @@ controlPanel.addEventListener("click",(e)=>{
 
 
 const render = ()=>{
+
     for(let s=1;s<21;s++){
         const square = document.getElementById(`s`+s)
         let i = s-1
@@ -65,7 +72,7 @@ const movementFun=(dir)=>{
     let playerPos = currentCell.indexOf("k")
     let nxtPlayerPos = 0
     let remainder = 0
-    console.log(playerPos)
+
     switch(dir){
         case "up":
             nxtPlayerPos = playerPos-5
@@ -73,6 +80,12 @@ const movementFun=(dir)=>{
             if(nxtPlayerPos>=0){
                 checkObstacle(playerPos,nxtPlayerPos)
             }else{
+
+                if(currentCellNumber.u){
+                // call switchfun here
+                let newPlayerPos = playerPos+15
+                swichMapFun(currentCellNumber.u, newPlayerPos)
+                }
                
                 attackerFun(playerPos)
                 render()
@@ -85,6 +98,12 @@ const movementFun=(dir)=>{
             if(nxtPlayerPos<=19){
                 checkObstacle(playerPos,nxtPlayerPos)
             }else{
+
+                if(currentCellNumber.d){
+                // call switchfun here
+                let newPlayerPos = playerPos-15
+                swichMapFun(currentCellNumber.d, newPlayerPos)
+                }
                
                 attackerFun(playerPos)
                 render()
@@ -96,18 +115,21 @@ const movementFun=(dir)=>{
 
              remainder = playerPos%5
 
-             if(currentCell[nxtPlayerPos].includes("tl")){
-                console.log("tl")
-                cellSwitch=true
-             }else{
-                cellSwitch=false
-             }
+                
           
             
             if(remainder!=0){
+                
                 checkObstacle(playerPos,nxtPlayerPos)
             }else{
-               
+                
+                if(currentCellNumber.l){
+                // call switchfun here
+                let newPlayerPos = playerPos+4
+                swichMapFun(currentCellNumber.l, newPlayerPos)
+                }
+
+
                 attackerFun(playerPos)
                 render()
             }
@@ -123,6 +145,15 @@ const movementFun=(dir)=>{
                 if(remainder!=0){
                     checkObstacle(playerPos,nxtPlayerPos)
             }else{
+                console.log(currentCellNumber.r)
+                if(currentCellNumber.r){
+                    console.log("yes")
+                    console.log(currentCell[playerPos])   
+                    currentCell[playerPos]="g"
+                // call switchfun here
+                let newPlayerPos = playerPos-4
+                swichMapFun(currentCellNumber.r, newPlayerPos)
+                }
                
                 attackerFun(playerPos)
                 render()
@@ -135,28 +166,30 @@ const movementFun=(dir)=>{
 
 const checkObstacle = (playerPos,nxtPlayerPos)=>{
 
-console.log("check")
-console.log(nxtPlayerPos)
-    switch(currentCell[nxtPlayerPos]){
-        case "g":
-            console.log("grass")
+
+
+
+    switch(true){
+        case currentCell[nxtPlayerPos] === "g":
+        
             currentCell[playerPos]="g"
             currentCell[nxtPlayerPos]="k"
             render()
         break;
-        case "c":
+        case currentCell[nxtPlayerPos] === "c":
             currentCell[playerPos]="g"
             currentCell[nxtPlayerPos]="k"
             player.inventory.push("key")
             alert(player.inventory)
         break;
-        case "a":
+        case currentCell[nxtPlayerPos] === "a":
             // meleeAttack() 
             console.log("attack")  
         break;  
-        case "e":
+        case currentCell[nxtPlayerPos] === "e":
             // exit()
         break; 
+
         default:
             //  attackerFun(playerPos)
         break;          
@@ -167,7 +200,7 @@ console.log(nxtPlayerPos)
 }
 
 const attackerFun = (playerPos)=>{
-    console.log("attFun")
+
     if(currentCell.includes("a")){
 
 
@@ -235,5 +268,23 @@ const moveAttacker = (posAttPos,attackerPos)=>{
             return;
         }
     }
+
+}
+
+const swichMapFun = (newCell, newPlayerPos)=>{
+
+    player.cell = newCell
+    currentCell = currentMap[player.cell]
+    console.log(newPlayerPos)
+    currentCell[newPlayerPos]="k"
+    
+    
+
+
+mapPics = mapInfo[player.map]
+swiches = mapInfo[player.map].swiches
+currentCellNumber = swiches[player.cell]
+
+    render()
 
 }
