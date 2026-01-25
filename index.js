@@ -82,9 +82,15 @@ const movementFun=(dir)=>{
             }else{
 
                 if(currentCellNumber.u){
-                // call switchfun here
-                let newPlayerPos = playerPos+15
-                swichMapFun(currentCellNumber.u, newPlayerPos)
+                    let newPlayerPos = playerPos+15
+                    let checkObjOnMap = checkNewObj(currentCellNumber.u, newPlayerPos)
+                    if(checkObjOnMap){
+                        currentCell[playerPos]="g"
+                        swichMapFun(currentCellNumber.u, newPlayerPos)
+                    }
+                    
+
+
                 }
                
                 attackerFun(playerPos)
@@ -100,6 +106,7 @@ const movementFun=(dir)=>{
             }else{
 
                 if(currentCellNumber.d){
+                    currentCell[playerPos]="g"
                 // call switchfun here
                 let newPlayerPos = playerPos-15
                 swichMapFun(currentCellNumber.d, newPlayerPos)
@@ -124,6 +131,7 @@ const movementFun=(dir)=>{
             }else{
                 
                 if(currentCellNumber.l){
+                 currentCell[playerPos]="g"   
                 // call switchfun here
                 let newPlayerPos = playerPos+4
                 swichMapFun(currentCellNumber.l, newPlayerPos)
@@ -147,8 +155,7 @@ const movementFun=(dir)=>{
             }else{
                 console.log(currentCellNumber.r)
                 if(currentCellNumber.r){
-                    console.log("yes")
-                    console.log(currentCell[playerPos])   
+       
                     currentCell[playerPos]="g"
                 // call switchfun here
                 let newPlayerPos = playerPos-4
@@ -268,6 +275,21 @@ const moveAttacker = (posAttPos,attackerPos)=>{
             return;
         }
     }
+
+}
+
+const checkNewObj = (newCell, newPlayerPos)=>{
+
+       currentCell = currentMap[newCell]
+       console.log(currentCell)
+    if(currentCell[newPlayerPos]="g"){
+        console.log(currentCell[newPlayerPos])
+        return true
+    }else{
+        return false
+    }
+    
+
 
 }
 
